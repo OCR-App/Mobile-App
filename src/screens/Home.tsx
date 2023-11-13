@@ -1,15 +1,20 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Text, View} from 'react-native';
 import PrimaryButton from '../components/PrimaryButton/PrimaryButton';
 import UploadImageModal from '../components/UploadImageModal/UploadImageModal';
 import {Image} from 'react-native-image-crop-picker';
+import {uploadImage} from '../repositories/MainRepository';
 
 const HomeScreen: React.FC = () => {
   const [visible, setVisible] = useState(false);
   const [image, setImage] = useState<Partial<Image> | null>(null);
 
-  console.log(image);
+  useEffect(() => {
+    if (image) {
+      uploadImage(image);
+    }
+  }, [image]);
 
   return (
     <View
