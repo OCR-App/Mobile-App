@@ -12,7 +12,7 @@ const HomeScreen: React.FC = () => {
 
   useEffect(() => {
     if (image) {
-      uploadImage(image);
+      uploadImage(image?.data as string);
     }
   }, [image]);
 
