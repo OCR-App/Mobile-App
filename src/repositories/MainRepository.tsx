@@ -1,13 +1,11 @@
-import URLs from '../adapter/axios/URLs';
 import RNFetchBlob from 'react-native-blob-util';
 
 export const uploadImage = async (image: string) => {
-  const baseURL = '';
+  const baseURL = 'http://192.168.43.151:8000/api/v1/ocr/get-photo/';
 
-  console.log(image);
   return await RNFetchBlob.fetch(
     'POST',
-    baseURL + URLs.SEND_PIC,
+    baseURL,
     {
       'Content-Type': 'multipart/form-data',
     },
