@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     margin: 0,
   },
   button: {
-    backgroundColor: '#FFF',
+    backgroundColor: '#2D2D2D',
     width: '90%',
     alignSelf: 'center',
     marginVertical: 0,
@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     height: 54,
   },
   buttonText: {
-    color: '#000',
+    color: '#2E8B57',
   },
   cameraButton: {
     borderTopEndRadius: 10,
