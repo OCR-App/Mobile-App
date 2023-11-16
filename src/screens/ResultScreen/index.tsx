@@ -3,8 +3,10 @@ import {Image, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import MainLayout from '../../layouts/MainLayout';
 import BottomSheet from '@gorhom/bottom-sheet';
 import styles from './styles';
+import Tts from 'react-native-tts';
 
 const PreviewScreen: React.FC = ({navigation}: any) => {
+  const text = 'This is a test description';
   const bottomSheetRef = useRef<any>(null);
 
   const snapPoints = useMemo(() => ['8%', '80%'], []);
@@ -38,7 +40,11 @@ const PreviewScreen: React.FC = ({navigation}: any) => {
               <View style={styles.modalHeader}>
                 <Text style={styles.languageText}>English</Text>
                 <View style={styles.modalOptions}>
-                  <TouchableOpacity style={styles.option}>
+                  <TouchableOpacity
+                    style={styles.option}
+                    onPress={() =>
+                      Tts.getInitStatus().then(() => Tts.speak(text))
+                    }>
                     <Image
                       source={require('../../assets/images/speaker.png')}
                       style={styles.icon}
@@ -64,21 +70,7 @@ const PreviewScreen: React.FC = ({navigation}: any) => {
                   justifyContent: 'space-between',
                   flex: 1,
                 }}>
-                <Text style={styles.modalResultText}>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Egestas purus viverra accumsan in nisl nisi. Arcu cursus vitae
-                  congue mauris rhoncus aenean vel elit scelerisque. In egestas
-                  erat imperdiet sed euismod nisi porta lorem mollis. Morbi
-                  tristique senectus et netus. Mattis pellentesque id nibh
-                  tortor id aliquet lectus proin. Sapien faucibus et molestie ac
-                  feugiat sed lectus vestibulum. Ullamcorper velit sed
-                  ullamcorper morbi tincidunt ornare massa eget. Dictum varius
-                  duis at consectetur lorem. Nisi vitae suscipit tellus mauris a
-                  diam maecenas sed enim. Velit ut tortor pretium viverra
-                  suspendisse potenti nullam. Et molestie ac feugiat sed lectus.
-                  Non nisi est sit amet facilisis magna. Dignissim diam quis
-                </Text>
+                <Text style={styles.modalResultText}>{text}</Text>
                 <TouchableOpacity style={styles.translateButton}>
                   <Text style={styles.translateButtonText}>Translate</Text>
                 </TouchableOpacity>
