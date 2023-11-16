@@ -21,6 +21,7 @@ export const imageOptions = {
   showCropFrame: true,
   compressImageQuality: 0.5,
   includeBase64: true,
+  cropperActiveWidgetColor: '#2E8B57',
 } as Options;
 
 export const videoOptions = {

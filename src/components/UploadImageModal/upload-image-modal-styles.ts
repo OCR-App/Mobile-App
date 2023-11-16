@@ -18,11 +18,12 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#2E8B57',
+    fontSize: 16,
   },
   cameraButton: {
     borderTopEndRadius: 10,
     borderTopStartRadius: 10,
-    borderBottomColor: '#ccc',
+    borderBottomColor: '#1d1d1d',
     borderBottomWidth: 1,
   },
   galleryButton: {

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Dimensions, View} from 'react-native';
+import {Dimensions} from 'react-native';
 import Modal from 'react-native-modal';
 import {imageOptions} from '../../utils/camera';
 import {Props} from './UploadImageModalTypes';
@@ -11,8 +11,6 @@ export default function UploadImageModal({
   visible,
   onChange,
   onDismiss,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  cropArea = true,
 }: Props) {
   const {height, width} = Dimensions.get('screen');
 
@@ -45,20 +43,19 @@ export default function UploadImageModal({
       <PrimaryButton
         textStyles={styles.buttonText}
         styles={[styles.button, styles.cameraButton]}
-        title="Open Camera"
+        title="انتخاب از دوربین"
         onPress={onTakeImage}
       />
-      <View />
       <PrimaryButton
         textStyles={styles.buttonText}
         onPress={onPickImage}
         styles={[styles.button, styles.galleryButton]}
-        title="Import from Gallery"
+        title="انتخاب از گالری"
       />
       <PrimaryButton
         textStyles={styles.buttonText}
         styles={[styles.button, styles.cancelButton]}
-        title="Cancel"
+        title="لغو"
         onPress={onDismiss}
       />
     </Modal>
