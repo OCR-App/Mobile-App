@@ -19,6 +19,19 @@ const PreviewScreen: React.FC = ({navigation}: any) => {
   return (
     <MainLayout>
       <>
+        <TouchableOpacity
+          style={styles.closeButton}
+          onPress={() => {
+            navigation.reset({
+              index: 1,
+              routes: [{name: 'Home'}],
+            });
+          }}>
+          <Image
+            source={require('../../assets/images/close.png')}
+            style={styles.icon}
+          />
+        </TouchableOpacity>
         <View style={styles.modalContainer}>
           <View style={styles.container}>
             <Image

@@ -9,6 +9,12 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     marginTop: 50,
   },
+  closeButton: {
+    position: 'absolute',
+    right: 20,
+    top: 40,
+    zIndex: 999,
+  },
   header: {
     flex: 1,
     paddingTop: 50,
