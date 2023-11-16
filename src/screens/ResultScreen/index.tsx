@@ -1,5 +1,6 @@
 import React, {useCallback, useMemo, useRef} from 'react';
 import {Image, ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import Clipboard from '@react-native-clipboard/clipboard';
 import MainLayout from '../../layouts/MainLayout';
 import BottomSheet from '@gorhom/bottom-sheet';
 import styles from './styles';
@@ -50,7 +51,9 @@ const PreviewScreen: React.FC = ({navigation}: any) => {
                       style={styles.icon}
                     />
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.option}>
+                  <TouchableOpacity
+                    style={styles.option}
+                    onPress={() => Clipboard.setString(text)}>
                     <Image
                       source={require('../../assets/images/copy.png')}
                       style={styles.icon}

@@ -41,7 +41,6 @@ const styles = StyleSheet.create({
   },
   modalContentContainer: {
     flex: 1,
-    alignItems: 'center',
     backgroundColor: '#2D2D2D',
   },
   modalHeader: {
@@ -75,6 +74,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   modalResultText: {
+    textAlign: 'left',
     color: '#FFF',
     lineHeight: 23,
   },
