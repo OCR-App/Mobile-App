@@ -1,12 +1,11 @@
-/* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
 import {Text, View} from 'react-native';
-import PrimaryButton from '../components/PrimaryButton/PrimaryButton';
-import UploadImageModal from '../components/UploadImageModal/UploadImageModal';
+import PrimaryButton from '../../components/PrimaryButton/PrimaryButton';
+import UploadImageModal from '../../components/UploadImageModal/UploadImageModal';
 import {Image} from 'react-native-image-crop-picker';
-import {uploadImage} from '../repositories/MainRepository';
+import {uploadImage} from '../../repositories/MainRepository';
 
-const HomeScreen: React.FC = () => {
+const ResultScreen: React.FC = () => {
   const [visible, setVisible] = useState(false);
   const [image, setImage] = useState<Partial<Image> | null>(null);
 
@@ -42,4 +41,4 @@ const HomeScreen: React.FC = () => {
   );
 };
 
-export default HomeScreen;
+export default ResultScreen;
