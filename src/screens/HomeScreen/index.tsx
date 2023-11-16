@@ -1,9 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import {Text, View} from 'react-native';
-import PrimaryButton from '../../components/PrimaryButton/PrimaryButton';
+import {
+  Image,
+  ImageBackground,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import UploadImageModal from '../../components/UploadImageModal/UploadImageModal';
-import {Image} from 'react-native-image-crop-picker';
 import {uploadImage} from '../../repositories/MainRepository';
+import MainLayout from '../../layouts/MainLayout';
+import styles from './styles';
 
 const HomeScreen: React.FC = () => {
   const [visible, setVisible] = useState(false);
@@ -18,26 +24,40 @@ const HomeScreen: React.FC = () => {
   }, [image]);
 
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}>
-      <Text>Upload image</Text>
-      <PrimaryButton
-        title="File"
-        onPress={() => setVisible(true)}
-        styles={{
-          width: '90%',
-        }}
-      />
-      <UploadImageModal
-        visible={visible}
-        onDismiss={() => setVisible(false)}
-        onChange={setImage}
-      />
-    </View>
+    <MainLayout>
+      <>
+        <ImageBackground
+          source={require('../../assets/images/header.png')}
+          style={styles.header}>
+          <Image
+            source={require('../../assets/images/logo.png')}
+            style={styles.logo}
+          />
+        </ImageBackground>
+        <View>
+          <Text style={styles.description}>
+            جهت جداسازی متن از روی عکس، لطفا تصویر خود را از قسمت پایین آپلود
+            کنید.
+          </Text>
+        </View>
+        <TouchableOpacity
+          style={styles.uploadButton}
+          onPress={() => setVisible(true)}>
+          <Image
+            source={require('../../assets/images/scan.png')}
+            style={styles.scanIcon}
+          />
+          <Text style={styles.scanDescription}>
+            لطفا تصویر خود را وارد کنید
+          </Text>
+        </TouchableOpacity>
+        <UploadImageModal
+          visible={visible}
+          onDismiss={() => setVisible(false)}
+          onChange={setImage}
+        />
+      </>
+    </MainLayout>
   );
 };
 
