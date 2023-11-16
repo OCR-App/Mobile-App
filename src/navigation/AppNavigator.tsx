@@ -19,7 +19,7 @@ const AppNavigator = () => {
   return (
     <NavigationContainer theme={appTheme}>
       <Stack.Navigator
-        initialRouteName="Home"
+        initialRouteName="Result"
         screenOptions={{
           headerShown: false,
         }}>

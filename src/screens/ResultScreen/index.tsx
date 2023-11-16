@@ -4,6 +4,7 @@ import Clipboard from '@react-native-clipboard/clipboard';
 import MainLayout from '../../layouts/MainLayout';
 import BottomSheet from '@gorhom/bottom-sheet';
 import styles from './styles';
+import Toast from 'react-native-toast-message';
 import Tts from 'react-native-tts';
 
 const PreviewScreen: React.FC = ({navigation}: any) => {
@@ -66,7 +67,16 @@ const PreviewScreen: React.FC = ({navigation}: any) => {
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={styles.option}
-                    onPress={() => Clipboard.setString(text)}>
+                    onPress={() => {
+                      Clipboard.setString(text);
+                      Toast.show({
+                        type: 'success',
+                        position: 'top',
+                        topOffset: 50,
+                        visibilityTime: 5000,
+                        text1: 'text copied Successfully!',
+                      });
+                    }}>
                     <Image
                       source={require('../../assets/images/copy.png')}
                       style={styles.icon}
