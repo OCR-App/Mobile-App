@@ -82,7 +82,9 @@ const PreviewScreen: React.FC = ({navigation}: any) => {
                       style={styles.icon}
                     />
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.option}>
+                  <TouchableOpacity
+                    style={styles.option}
+                    onPress={() => bottomSheetRef?.current?.collapse()}>
                     <Image
                       source={require('../../assets/images/close.png')}
                       style={styles.icon}
