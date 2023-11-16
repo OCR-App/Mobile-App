@@ -1,5 +1,5 @@
 import {createStackNavigator} from '@react-navigation/stack';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 import React from 'react';
 import HomeScreen from '../screens/HomeScreen';
 import PreviewScreen from '../screens/PreviewScreen';
@@ -8,8 +8,16 @@ import ResultScreen from '../screens/ResultScreen';
 const Stack = createStackNavigator();
 
 const AppNavigator = () => {
+  const appTheme = {
+    ...DefaultTheme,
+    colors: {
+      ...DefaultTheme.colors,
+      background: '#1E1E1E',
+    },
+  };
+
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={appTheme}>
       <Stack.Navigator
         initialRouteName="Home"
         screenOptions={{
