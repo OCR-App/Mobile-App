@@ -69,6 +69,26 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
   },
+  modalResult: {
+    paddingHorizontal: 12,
+    marginTop: 20,
+    flex: 1,
+  },
+  modalResultText: {
+    color: '#FFF',
+    lineHeight: 23,
+  },
+  translateButton: {
+    padding: 10,
+    borderRadius: 10,
+    backgroundColor: '#2E8B57',
+    marginBottom: 30,
+  },
+  translateButtonText: {
+    textAlign: 'center',
+    color: '#FFF',
+    fontWeight: 'bold',
+  },
 });
 
 export default styles;
