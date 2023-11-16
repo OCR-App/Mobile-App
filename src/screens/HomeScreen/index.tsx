@@ -10,16 +10,25 @@ import UploadImageModal from '../../components/UploadImageModal/UploadImageModal
 import {uploadImage} from '../../repositories/MainRepository';
 import MainLayout from '../../layouts/MainLayout';
 import styles from './styles';
+import {useAppDispatch} from '../../store/hooks';
+import {setIsLoading} from '../../store/Redux/Core/coreSlice';
 
-const HomeScreen: React.FC = () => {
+const HomeScreen: React.FC = ({navigation}) => {
   const [visible, setVisible] = useState(false);
   const [image, setImage] = useState<Partial<Image> | null>(null);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (image) {
-      uploadImage(image?.data as string)
-        .then(res => console.log(res))
-        .catch(e => console.log(e));
+      dispatch(setIsLoading({isLoading: true}));
+      // uploadImage(image?.data as string)
+      //   .then(res => console.log(res))
+      //   .catch(e => console.log(e))
+      //   .finally(() => dispatch(setIsLoading({isLoading: false})));
+      setTimeout(() => {
+        dispatch(setIsLoading({isLoading: false}));
+        navigation.navigate('Preview');
+      }, 6000);
     }
   }, [image]);
 
