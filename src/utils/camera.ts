@@ -13,8 +13,6 @@ export const avatarOptions = {
 } as Options;
 
 export const imageOptions = {
-  width: 1000,
-  height: 1000,
   cropping: true,
   multiple: false,
   mediaType: 'photo',
