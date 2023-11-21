@@ -11,7 +11,7 @@ const IpScreen: React.FC = ({navigation}: any) => {
   const handleSubmit = () => {
     if (ip.length) {
       dispatch(setAppIp({ip}));
-      navigation.navigate('Home');
+      navigation.navigate('Lang');
     }
   };
 
@@ -25,6 +25,7 @@ const IpScreen: React.FC = ({navigation}: any) => {
           placeholderTextColor="#fff"
           value={ip}
           onChangeText={setIp}
+          keyboardType="numeric"
         />
         <TouchableOpacity style={styles.button} onPress={handleSubmit}>
           <Text style={styles.buttonText}>confirm</Text>

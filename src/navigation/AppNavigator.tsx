@@ -5,6 +5,7 @@ import HomeScreen from '../screens/HomeScreen';
 import PreviewScreen from '../screens/PreviewScreen';
 import ResultScreen from '../screens/ResultScreen';
 import IpScreen from '../screens/IpScreen';
+import LangScreen from '../screens/LangScreen';
 
 const Stack = createStackNavigator();
 
@@ -25,6 +26,7 @@ const AppNavigator = () => {
           headerShown: false,
         }}>
         <Stack.Screen name="Ip" component={IpScreen} />
+        <Stack.Screen name="Lang" component={LangScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Preview" component={PreviewScreen} />
         <Stack.Screen name="Result" component={ResultScreen} />
