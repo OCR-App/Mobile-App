@@ -4,6 +4,7 @@ import React from 'react';
 import HomeScreen from '../screens/HomeScreen';
 import PreviewScreen from '../screens/PreviewScreen';
 import ResultScreen from '../screens/ResultScreen';
+import IpScreen from '../screens/IpScreen';
 
 const Stack = createStackNavigator();
 
@@ -19,10 +20,11 @@ const AppNavigator = () => {
   return (
     <NavigationContainer theme={appTheme}>
       <Stack.Navigator
-        initialRouteName="Home"
+        initialRouteName="Ip"
         screenOptions={{
           headerShown: false,
         }}>
+        <Stack.Screen name="Ip" component={IpScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Preview" component={PreviewScreen} />
         <Stack.Screen name="Result" component={ResultScreen} />
