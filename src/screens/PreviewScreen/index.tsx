@@ -2,8 +2,12 @@ import React from 'react';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 import MainLayout from '../../layouts/MainLayout';
 import styles from './styles';
+import {useAppSelector} from '../../store/hooks';
 
 const PreviewScreen: React.FC = ({navigation}: any) => {
+  const {image} = useAppSelector(state => state);
+  console.log(image);
+
   return (
     <MainLayout>
       <>
@@ -33,7 +37,7 @@ const PreviewScreen: React.FC = ({navigation}: any) => {
         </View>
         <View style={styles.container}>
           <Image
-            source={require('../../assets/images/preview.png')}
+            source={{uri: 'http://192.168.117.242:8000/' + image.editedImage}}
             style={styles.image}
           />
         </View>

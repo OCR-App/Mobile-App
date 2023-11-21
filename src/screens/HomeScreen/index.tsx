@@ -7,11 +7,12 @@ import {
   View,
 } from 'react-native';
 import UploadImageModal from '../../components/UploadImageModal/UploadImageModal';
-import {uploadImage} from '../../repositories/MainRepository';
+import {uploadImage} from '../../store/repositories/MainRepository';
 import MainLayout from '../../layouts/MainLayout';
 import styles from './styles';
 import {useAppDispatch} from '../../store/hooks';
 import {setIsLoading} from '../../store/Redux/Core/coreSlice';
+import {setGivenImage} from '../../store/Redux/Image/imageSlice';
 
 const HomeScreen: React.FC = ({navigation}) => {
   const [visible, setVisible] = useState(false);
@@ -20,15 +21,24 @@ const HomeScreen: React.FC = ({navigation}) => {
 
   useEffect(() => {
     if (image) {
-      dispatch(setIsLoading({isLoading: true}));
-      // uploadImage(image?.data as string)
-      //   .then(res => console.log(res))
-      //   .catch(e => console.log(e))
-      //   .finally(() => dispatch(setIsLoading({isLoading: false})));
-      setTimeout(() => {
-        dispatch(setIsLoading({isLoading: false}));
-        navigation.navigate('Preview');
-      }, 6000);
+      // dispatch(setIsLoading({isLoading: true}));
+      uploadImage(image?.data as string, 'english')
+        .then(res => {
+          const {original_image, uuid, edited_image} = JSON.parse(res.data);
+          dispatch(
+            setGivenImage({
+              image: original_image,
+              id: uuid,
+              editedImage: edited_image,
+            }),
+          );
+        })
+        .catch(e => console.log(e))
+        .finally(() => dispatch(setIsLoading({isLoading: false})));
+      // setTimeout(() => {
+      // dispatch(setIsLoading({isLoading: false}));
+      // }, 6000);
+      navigation.navigate('Preview');
     }
   }, [image]);
 
