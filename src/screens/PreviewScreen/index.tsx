@@ -1,12 +1,30 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 import MainLayout from '../../layouts/MainLayout';
 import styles from './styles';
-import {useAppSelector} from '../../store/hooks';
+import {useAppDispatch, useAppSelector} from '../../store/hooks';
+import {setIsLoading} from '../../store/Redux/Core/coreSlice';
+import axios from 'axios';
+import URLs from '../../adapter/axios/URLs';
 
 const PreviewScreen: React.FC = ({navigation}: any) => {
   const {image} = useAppSelector(state => state);
-  console.log(image);
+  const {ip} = useAppSelector(state => state.ip);
+  const dispatch = useAppDispatch();
+
+  const handleSubmit = () => {
+    dispatch(setIsLoading({isLoading: true}));
+    axios
+      .post(`http://${ip}:8000/${URLs.CONFIRM_IMAGE}`, {
+        uuid: image?.imageId,
+      })
+      .then(res => {
+        navigation.navigate('Result', {result: res?.data?.text});
+        console.log('res?.data', res?.data?.text);
+      })
+      .catch(e => console.log('eee', e))
+      .finally(() => dispatch(setIsLoading({isLoading: false})));
+  };
 
   return (
     <MainLayout>
@@ -25,7 +43,7 @@ const PreviewScreen: React.FC = ({navigation}: any) => {
             <Text style={styles.buttonText}>Try Again</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => navigation.navigate('Result')}
+            onPress={handleSubmit}
             style={[
               styles.button,
               {
@@ -37,7 +55,7 @@ const PreviewScreen: React.FC = ({navigation}: any) => {
         </View>
         <View style={styles.container}>
           <Image
-            source={{uri: 'http://192.168.117.242:8000/' + image.editedImage}}
+            source={{uri: `http://${ip}:8000/${image.editedImage}`}}
             style={styles.image}
           />
         </View>

@@ -6,9 +6,14 @@ import BottomSheet from '@gorhom/bottom-sheet';
 import styles from './styles';
 import Toast from 'react-native-toast-message';
 import Tts from 'react-native-tts';
+import {useAppSelector} from '../../store/hooks';
 
-const PreviewScreen: React.FC = ({navigation}: any) => {
-  const text = 'This is a test description';
+const PreviewScreen: React.FC = ({navigation, route}: any) => {
+  const result = route.params.result;
+  const {image} = useAppSelector(state => state);
+  const {ip} = useAppSelector(state => state.ip);
+  console.log('res', route.params);
+
   const bottomSheetRef = useRef<any>(null);
 
   const snapPoints = useMemo(() => ['8%', '80%'], []);
@@ -36,7 +41,7 @@ const PreviewScreen: React.FC = ({navigation}: any) => {
         <View style={styles.modalContainer}>
           <View style={styles.container}>
             <Image
-              source={require('../../assets/images/preview.png')}
+              source={{uri: `http://${ip}:8000/${image.editedImage}`}}
               style={styles.image}
             />
           </View>
@@ -58,7 +63,7 @@ const PreviewScreen: React.FC = ({navigation}: any) => {
                   <TouchableOpacity
                     style={styles.option}
                     onPress={() =>
-                      Tts.getInitStatus().then(() => Tts.speak(text))
+                      Tts.getInitStatus().then(() => Tts.speak(result))
                     }>
                     <Image
                       source={require('../../assets/images/speaker.png')}
@@ -68,7 +73,7 @@ const PreviewScreen: React.FC = ({navigation}: any) => {
                   <TouchableOpacity
                     style={styles.option}
                     onPress={() => {
-                      Clipboard.setString(text);
+                      Clipboard.setString(result);
                       Toast.show({
                         type: 'success',
                         position: 'top',
@@ -98,7 +103,7 @@ const PreviewScreen: React.FC = ({navigation}: any) => {
                   justifyContent: 'space-between',
                   flex: 1,
                 }}>
-                <Text style={styles.modalResultText}>{text}</Text>
+                <Text style={styles.modalResultText}>{result}</Text>
                 <TouchableOpacity style={styles.translateButton}>
                   <Text style={styles.translateButtonText}>Translate</Text>
                 </TouchableOpacity>

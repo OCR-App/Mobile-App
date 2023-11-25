@@ -1,5 +1,5 @@
 let URLs = {
-  SEND_PIC: 'send/pic',
+  CONFIRM_IMAGE: 'api/v1/ocr/confirm-photo/',
 };
 Object.freeze(URLs);
 export default URLs;

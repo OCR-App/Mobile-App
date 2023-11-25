@@ -1,25 +1,44 @@
 import RNFetchBlob from 'react-native-blob-util';
+import {Image} from 'react-native-image-crop-picker';
+import HttpService from '../../adapter/axios/HttpService';
+import URLs from '../../adapter/axios/URLs';
 
-export const uploadImage = async (image: string, lang: string) => {
-  const baseURL = 'http://192.168.117.242:8000/api/v1/ocr/get-photo/';
+const httpService = HttpService.build();
 
-  return await RNFetchBlob.fetch(
-    'POST',
-    baseURL,
+export const uploadImage = async (image: Image, lang: string, ip: string) => {
+  const baseURL = `http://${ip}:8000/api/v1/ocr/get-photo/`;
+  console.log({baseURL});
+
+  const imageFormData = [
     {
-      'Content-Type': 'multipart/form-data',
+      name: 'image',
+      filename: 'image.jpg',
+      data: RNFetchBlob.wrap(image?.path),
     },
-    [
+    {
+      name: 'lang',
+      data: lang,
+    },
+  ];
+
+  console.log({imageFormData});
+
+  try {
+    const response = await RNFetchBlob.fetch(
+      'POST',
+      baseURL,
       {
-        name: 'image',
-        type: 'image/png',
-        filename: 'avatar.png',
-        data: image,
+        'Content-Type': 'multipart/form-data',
       },
-      {
-        name: 'lang',
-        data: lang,
-      },
-    ],
-  );
+      imageFormData,
+    );
+
+    return response.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const confirmImage = async (id: string) => {
+  return await httpService.post(URLs.CONFIRM_IMAGE, {uuid: id});
 };

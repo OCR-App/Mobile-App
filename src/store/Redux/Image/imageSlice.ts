@@ -4,7 +4,6 @@ import {ImageState} from '../../Models/image';
 
 const initialState: ImageState = {
   image: null,
-  lang: 'english',
   editedImage: null,
   imageId: '',
 };
@@ -17,6 +16,6 @@ const ImageSlice = createSlice({
   },
 });
 
-export const {setGivenImage, setAppLang} = ImageSlice.actions;
+export const {setGivenImage} = ImageSlice.actions;
 
 export default ImageSlice.reducer;

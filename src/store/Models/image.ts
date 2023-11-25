@@ -1,8 +1,5 @@
-import {Image} from 'react-native';
-
 export interface ImageState {
-  lang: 'english' | 'persian';
-  image: Image | null;
-  editedImage: Image | null;
+  image: any | null;
+  editedImage: any | null;
   imageId: string;
 }

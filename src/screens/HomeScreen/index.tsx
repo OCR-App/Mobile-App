@@ -10,35 +10,35 @@ import UploadImageModal from '../../components/UploadImageModal/UploadImageModal
 import {uploadImage} from '../../store/repositories/MainRepository';
 import MainLayout from '../../layouts/MainLayout';
 import styles from './styles';
-import {useAppDispatch} from '../../store/hooks';
+import {useAppDispatch, useAppSelector} from '../../store/hooks';
 import {setIsLoading} from '../../store/Redux/Core/coreSlice';
 import {setGivenImage} from '../../store/Redux/Image/imageSlice';
 
-const HomeScreen: React.FC = ({navigation}) => {
+const HomeScreen: React.FC = ({navigation}: any) => {
+  const {lang} = useAppSelector(state => state.lang);
+  const {ip} = useAppSelector(state => state.ip);
   const [visible, setVisible] = useState(false);
   const [image, setImage] = useState<Partial<Image> | null>(null);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (image) {
-      // dispatch(setIsLoading({isLoading: true}));
-      uploadImage(image?.data as string, 'english')
+      dispatch(setIsLoading({isLoading: true}));
+      uploadImage(image as any, lang, ip)
         .then(res => {
-          const {original_image, uuid, edited_image} = JSON.parse(res.data);
+          console.log('res', res);
+          const tmp = JSON.parse(res);
           dispatch(
             setGivenImage({
-              image: original_image,
-              id: uuid,
-              editedImage: edited_image,
+              id: tmp?.uuid,
+              originalImage: tmp?.original_image,
+              editedImage: tmp?.edited_image,
             }),
           );
+          navigation.navigate('Preview');
         })
-        .catch(e => console.log(e))
+        .catch(e => console.log(e.response))
         .finally(() => dispatch(setIsLoading({isLoading: false})));
-      // setTimeout(() => {
-      // dispatch(setIsLoading({isLoading: false}));
-      // }, 6000);
-      navigation.navigate('Preview');
     }
   }, [image]);
 
