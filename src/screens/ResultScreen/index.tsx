@@ -1,8 +1,8 @@
 import React, {useCallback, useMemo, useRef, useState} from 'react';
-import {Image, ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
 import Clipboard from '@react-native-clipboard/clipboard';
 import MainLayout from '../../layouts/MainLayout';
-import BottomSheet from '@gorhom/bottom-sheet';
+import BottomSheet, {BottomSheetScrollView} from '@gorhom/bottom-sheet';
 import styles from './styles';
 import Toast from 'react-native-toast-message';
 import Tts from 'react-native-tts';
@@ -11,7 +11,8 @@ import {setIsLoading} from '../../store/Redux/Core/coreSlice';
 import TranslateModal from '../../components/TranslateModal';
 
 const PreviewScreen: React.FC = ({navigation, route}: any) => {
-  const result = route.params.result;
+  // const result = route.params.result;
+  const result = 'udiandae. Ut, nemo. Itaque officia, ';
   const [translateModalVisible, setTranslateModalVisible] = useState(false);
   const [translatedText, setTranslatedText] = useState('');
   const {image} = useAppSelector(state => state);
@@ -70,14 +71,10 @@ const PreviewScreen: React.FC = ({navigation, route}: any) => {
           </View>
           <BottomSheet
             ref={bottomSheetRef}
-            backgroundStyle={{
-              backgroundColor: '#2D2D2D',
-              borderColor: '#fff',
-              borderWidth: 1,
-            }}
+            backgroundStyle={styles.bottomSheet}
             index={1}
             snapPoints={snapPoints}
-            handleIndicatorStyle={{display: 'none'}}
+            handleIndicatorStyle={styles.bottomSheetIndicator}
             onChange={handleSheetChanges}>
             <View style={styles.modalContentContainer}>
               <View style={styles.modalHeader}>
@@ -120,19 +117,22 @@ const PreviewScreen: React.FC = ({navigation, route}: any) => {
                   </TouchableOpacity>
                 </View>
               </View>
-              <ScrollView
+              <BottomSheetScrollView
                 style={styles.modalResult}
-                contentContainerStyle={{
-                  justifyContent: 'space-between',
-                  flex: 1,
-                }}>
+                contentContainerStyle={styles.modalResultContent}>
                 <Text style={styles.modalResultText}>{result}</Text>
+              </BottomSheetScrollView>
+              <View
+                style={{width: '90%', alignSelf: 'center', marginBottom: 20}}>
                 <TouchableOpacity
                   style={styles.translateButton}
                   onPress={translate}>
                   <Text style={styles.translateButtonText}>Translate</Text>
                 </TouchableOpacity>
-              </ScrollView>
+                <TouchableOpacity style={styles.gptButton} onPress={translate}>
+                  <Text style={styles.gptButtonText}>Ask GPT</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </BottomSheet>
         </View>

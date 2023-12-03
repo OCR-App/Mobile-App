@@ -42,6 +42,10 @@ const styles = StyleSheet.create({
     height: '100%',
     resizeMode: 'contain',
   },
+  modalResultContent: {
+    justifyContent: 'space-between',
+    padding: 10,
+  },
   modalContainer: {
     flex: 1,
   },
@@ -77,7 +81,6 @@ const styles = StyleSheet.create({
   modalResult: {
     paddingHorizontal: 12,
     marginTop: 20,
-    flex: 1,
   },
   modalResultText: {
     textAlign: 'left',
@@ -88,11 +91,28 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
     backgroundColor: '#2E8B57',
-    marginBottom: 30,
+    marginVertical: 20,
   },
   translateButtonText: {
     textAlign: 'center',
     color: '#FFF',
+    fontWeight: 'bold',
+  },
+  bottomSheet: {
+    backgroundColor: '#2D2D2D',
+    borderColor: '#fff',
+    borderWidth: 1,
+  },
+  bottomSheetIndicator: {display: 'none'},
+  gptButton: {
+    padding: 10,
+    borderRadius: 10,
+    borderColor: '#2E8B57',
+    borderWidth: 2,
+  },
+  gptButtonText: {
+    textAlign: 'center',
+    color: '#2E8B57',
     fontWeight: 'bold',
   },
 });
