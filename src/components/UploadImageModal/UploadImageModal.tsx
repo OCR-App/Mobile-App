@@ -43,19 +43,19 @@ export default function UploadImageModal({
       <PrimaryButton
         textStyles={styles.buttonText}
         styles={[styles.button, styles.cameraButton]}
-        title="انتخاب از دوربین"
+        title="select from camera"
         onPress={onTakeImage}
       />
       <PrimaryButton
         textStyles={styles.buttonText}
         onPress={onPickImage}
         styles={[styles.button, styles.galleryButton]}
-        title="انتخاب از گالری"
+        title="select from gallery"
       />
       <PrimaryButton
         textStyles={styles.buttonText}
         styles={[styles.button, styles.cancelButton]}
-        title="لغو"
+        title="cancel"
         onPress={onDismiss}
       />
     </Modal>

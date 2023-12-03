@@ -55,8 +55,7 @@ const HomeScreen: React.FC = ({navigation}: any) => {
         </ImageBackground>
         <View>
           <Text style={styles.description}>
-            جهت جداسازی متن از روی عکس، لطفا تصویر خود را از قسمت پایین آپلود
-            کنید.
+            to starting the ocr process, please upload your image in box below
           </Text>
         </View>
         <TouchableOpacity
@@ -66,9 +65,7 @@ const HomeScreen: React.FC = ({navigation}: any) => {
             source={require('../../assets/images/scan.png')}
             style={styles.scanIcon}
           />
-          <Text style={styles.scanDescription}>
-            لطفا تصویر خود را وارد کنید
-          </Text>
+          <Text style={styles.scanDescription}>import your image here</Text>
         </TouchableOpacity>
         <UploadImageModal
           visible={visible}
