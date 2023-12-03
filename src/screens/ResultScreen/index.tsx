@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useRef} from 'react';
+import React, {useCallback, useMemo, useRef, useState} from 'react';
 import {Image, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import Clipboard from '@react-native-clipboard/clipboard';
 import MainLayout from '../../layouts/MainLayout';
@@ -6,21 +6,44 @@ import BottomSheet from '@gorhom/bottom-sheet';
 import styles from './styles';
 import Toast from 'react-native-toast-message';
 import Tts from 'react-native-tts';
-import {useAppSelector} from '../../store/hooks';
+import {useAppDispatch, useAppSelector} from '../../store/hooks';
+import {setIsLoading} from '../../store/Redux/Core/coreSlice';
+import TranslateModal from '../../components/TranslateModal';
 
 const PreviewScreen: React.FC = ({navigation, route}: any) => {
   const result = route.params.result;
+  const [translateModalVisible, setTranslateModalVisible] = useState(false);
+  const [translatedText, setTranslatedText] = useState('');
   const {image} = useAppSelector(state => state);
   const {ip} = useAppSelector(state => state.ip);
-  console.log('res', route.params);
-
+  const dispatch = useAppDispatch();
   const bottomSheetRef = useRef<any>(null);
-
   const snapPoints = useMemo(() => ['8%', '80%'], []);
 
   const handleSheetChanges = useCallback((index: number) => {
     console.log('handleSheetChanges', index);
   }, []);
+
+  const translate = async () => {
+    // dispatch(setIsLoading({isLoading: true}));
+    // const res = await fetch('https://libretranslate.com/translate', {
+    //   method: 'POST',
+    //   body: JSON.stringify({
+    //     q: 'سلام \nحالتون چطوره',
+    //     source: 'fa',
+    //     target: 'en',
+    //     format: 'text',
+    //     api_key: '',
+    //   }),
+    //   headers: {'Content-Type': 'application/json'},
+    // });
+
+    // const tmp = await res.json();
+    setTranslatedText('tmp');
+    setTranslateModalVisible(true);
+
+    // dispatch(setIsLoading({isLoading: false}));
+  };
 
   return (
     <MainLayout>
@@ -104,13 +127,20 @@ const PreviewScreen: React.FC = ({navigation, route}: any) => {
                   flex: 1,
                 }}>
                 <Text style={styles.modalResultText}>{result}</Text>
-                <TouchableOpacity style={styles.translateButton}>
+                <TouchableOpacity
+                  style={styles.translateButton}
+                  onPress={translate}>
                   <Text style={styles.translateButtonText}>Translate</Text>
                 </TouchableOpacity>
               </ScrollView>
             </View>
           </BottomSheet>
         </View>
+        <TranslateModal
+          visible={translateModalVisible}
+          text={translatedText}
+          onDismiss={() => setTranslateModalVisible(false)}
+        />
       </>
     </MainLayout>
   );
