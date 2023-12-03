@@ -52,6 +52,9 @@ const styles = StyleSheet.create({
   modalContentContainer: {
     flex: 1,
     backgroundColor: '#2D2D2D',
+    borderColor: '#fff',
+    borderRightWidth: 1,
+    borderLeftWidth: 1,
   },
   modalHeader: {
     width: '100%',

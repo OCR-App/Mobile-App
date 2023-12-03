@@ -9,11 +9,13 @@ import Tts from 'react-native-tts';
 import {useAppDispatch, useAppSelector} from '../../store/hooks';
 import {setIsLoading} from '../../store/Redux/Core/coreSlice';
 import TranslateModal from '../../components/TranslateModal';
+import GptModal from '../../components/GPTModal';
 
 const PreviewScreen: React.FC = ({navigation, route}: any) => {
   // const result = route.params.result;
   const result = 'udiandae. Ut, nemo. Itaque officia, ';
   const [translateModalVisible, setTranslateModalVisible] = useState(false);
+  const [gptModalVisible, setGptModalVisible] = useState(false);
   const [translatedText, setTranslatedText] = useState('');
   const {image} = useAppSelector(state => state);
   const {ip} = useAppSelector(state => state.ip);
@@ -46,103 +48,119 @@ const PreviewScreen: React.FC = ({navigation, route}: any) => {
     // dispatch(setIsLoading({isLoading: false}));
   };
 
+  const askGpt = async () => {
+    setGptModalVisible(true);
+  };
+
   return (
-    <MainLayout>
-      <>
-        <TouchableOpacity
-          style={styles.closeButton}
-          onPress={() => {
-            navigation.reset({
-              index: 1,
-              routes: [{name: 'Home'}],
-            });
-          }}>
-          <Image
-            source={require('../../assets/images/close.png')}
-            style={styles.icon}
-          />
-        </TouchableOpacity>
-        <View style={styles.modalContainer}>
-          <View style={styles.container}>
+    <>
+      <MainLayout>
+        <>
+          <TouchableOpacity
+            style={styles.closeButton}
+            onPress={() => {
+              navigation.reset({
+                index: 1,
+                routes: [{name: 'Home'}],
+              });
+            }}>
             <Image
-              source={{uri: `http://${ip}:8000/${image.editedImage}`}}
-              style={styles.image}
+              source={require('../../assets/images/close.png')}
+              style={styles.icon}
             />
-          </View>
-          <BottomSheet
-            ref={bottomSheetRef}
-            backgroundStyle={styles.bottomSheet}
-            index={1}
-            snapPoints={snapPoints}
-            handleIndicatorStyle={styles.bottomSheetIndicator}
-            onChange={handleSheetChanges}>
-            <View style={styles.modalContentContainer}>
-              <View style={styles.modalHeader}>
-                <Text style={styles.languageText}>English</Text>
-                <View style={styles.modalOptions}>
+          </TouchableOpacity>
+          <View style={styles.modalContainer}>
+            <View style={styles.container}>
+              <Image
+                source={{uri: `http://${ip}:8000/${image.editedImage}`}}
+                style={styles.image}
+              />
+            </View>
+            <BottomSheet
+              ref={bottomSheetRef}
+              backgroundStyle={styles.bottomSheet}
+              index={1}
+              snapPoints={snapPoints}
+              handleIndicatorStyle={styles.bottomSheetIndicator}
+              onChange={handleSheetChanges}>
+              <View style={styles.modalContentContainer}>
+                <View style={styles.modalHeader}>
+                  <Text style={styles.languageText}>English</Text>
+                  <View style={styles.modalOptions}>
+                    <TouchableOpacity
+                      style={styles.option}
+                      onPress={() =>
+                        Tts.getInitStatus().then(() => Tts.speak(result))
+                      }>
+                      <Image
+                        source={require('../../assets/images/speaker.png')}
+                        style={styles.icon}
+                      />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={styles.option}
+                      onPress={() => {
+                        Clipboard.setString(result);
+                        Toast.show({
+                          type: 'success',
+                          position: 'top',
+                          topOffset: 50,
+                          visibilityTime: 5000,
+                          text1: 'text copied Successfully!',
+                        });
+                      }}>
+                      <Image
+                        source={require('../../assets/images/copy.png')}
+                        style={styles.icon}
+                      />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={styles.option}
+                      onPress={() => bottomSheetRef?.current?.collapse()}>
+                      <Image
+                        source={require('../../assets/images/close.png')}
+                        style={styles.icon}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+                <BottomSheetScrollView
+                  style={styles.modalResult}
+                  contentContainerStyle={styles.modalResultContent}>
+                  <Text
+                    style={styles.modalResultText}
+                    selectable={true}
+                    selectionColor="#2E8B57">
+                    {result}
+                  </Text>
+                </BottomSheetScrollView>
+                <View
+                  style={{width: '90%', alignSelf: 'center', marginBottom: 20}}>
                   <TouchableOpacity
-                    style={styles.option}
-                    onPress={() =>
-                      Tts.getInitStatus().then(() => Tts.speak(result))
-                    }>
-                    <Image
-                      source={require('../../assets/images/speaker.png')}
-                      style={styles.icon}
-                    />
+                    style={styles.translateButton}
+                    onPress={translate}>
+                    <Text style={styles.translateButtonText}>Translate</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity
-                    style={styles.option}
-                    onPress={() => {
-                      Clipboard.setString(result);
-                      Toast.show({
-                        type: 'success',
-                        position: 'top',
-                        topOffset: 50,
-                        visibilityTime: 5000,
-                        text1: 'text copied Successfully!',
-                      });
-                    }}>
-                    <Image
-                      source={require('../../assets/images/copy.png')}
-                      style={styles.icon}
-                    />
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={styles.option}
-                    onPress={() => bottomSheetRef?.current?.collapse()}>
-                    <Image
-                      source={require('../../assets/images/close.png')}
-                      style={styles.icon}
-                    />
+                  <TouchableOpacity style={styles.gptButton} onPress={askGpt}>
+                    <Text style={styles.gptButtonText}>Ask GPT</Text>
                   </TouchableOpacity>
                 </View>
               </View>
-              <BottomSheetScrollView
-                style={styles.modalResult}
-                contentContainerStyle={styles.modalResultContent}>
-                <Text style={styles.modalResultText}>{result}</Text>
-              </BottomSheetScrollView>
-              <View
-                style={{width: '90%', alignSelf: 'center', marginBottom: 20}}>
-                <TouchableOpacity
-                  style={styles.translateButton}
-                  onPress={translate}>
-                  <Text style={styles.translateButtonText}>Translate</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.gptButton} onPress={translate}>
-                  <Text style={styles.gptButtonText}>Ask GPT</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </BottomSheet>
-        </View>
-        <TranslateModal
-          visible={translateModalVisible}
-          text={translatedText}
-          onDismiss={() => setTranslateModalVisible(false)}
-        />
-      </>
-    </MainLayout>
+            </BottomSheet>
+          </View>
+          <TranslateModal
+            visible={translateModalVisible}
+            text={translatedText}
+            onDismiss={() => setTranslateModalVisible(false)}
+          />
+        </>
+      </MainLayout>
+      <GptModal
+        visible={gptModalVisible}
+        onDismiss={() => setGptModalVisible(false)}
+        question=""
+      />
+    </>
   );
 };
 
