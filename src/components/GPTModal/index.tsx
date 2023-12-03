@@ -10,6 +10,11 @@ import {
 } from 'react-native';
 import Modal from 'react-native-modal';
 import styles from './styles';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 
 const GptModal = ({visible, onDismiss, question}: any) => {
   const {width, height} = Dimensions.get('screen');
@@ -27,15 +32,34 @@ const GptModal = ({visible, onDismiss, question}: any) => {
         setAnswer(prev => prev + text.charAt(i));
         i++;
         setTimeout(typeWriter, 50);
+
+        fadeQuestion.value = withTiming(1, {
+          duration: 200,
+        });
+        fadeAnswer.value = withTiming(1, {duration: 1});
       }
     }
     typeWriter();
   };
+  const fadeQuestion = useSharedValue(0);
+  const questionStyle = useAnimatedStyle(() => {
+    return {
+      opacity: fadeQuestion.value,
+    };
+  });
+
+  const fadeAnswer = useSharedValue(0);
+  const answerStyle = useAnimatedStyle(() => {
+    return {
+      opacity: fadeAnswer.value,
+    };
+  });
 
   const onClose = () => {
     onDismiss();
     setInputVisible(true);
     setAnswer('');
+    fadeQuestion.value = withTiming(0, {duration: 0});
   };
 
   return (
@@ -74,9 +98,15 @@ const GptModal = ({visible, onDismiss, question}: any) => {
               </TouchableOpacity>
             </View>
           ) : (
-            <Text style={styles.question}>{value}</Text>
+            <Animated.View style={questionStyle}>
+              <Text style={styles.question}>{value}</Text>
+            </Animated.View>
           )}
-          {answer && <Text style={styles.answer}>{answer}</Text>}
+          {answer && (
+            <Animated.View style={answerStyle}>
+              <Text style={styles.answer}>{answer}</Text>
+            </Animated.View>
+          )}
         </ScrollView>
       </View>
     </Modal>
