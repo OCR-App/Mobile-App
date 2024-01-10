@@ -23,6 +23,9 @@ const GptModal = ({visible, onDismiss, question}: any) => {
   const [inputVisible, setInputVisible] = useState(true);
 
   const sendQuestion = async () => {
+    if (!value.length) {
+      return;
+    }
     setInputVisible(false);
     const text =
       'isi quasi. Maiores labore corporis ipsam rerum, cupiditate itaque!';

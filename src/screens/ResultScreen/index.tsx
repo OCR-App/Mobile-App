@@ -9,13 +9,11 @@ import Tts from 'react-native-tts';
 import {useAppDispatch, useAppSelector} from '../../store/hooks';
 import {setIsLoading} from '../../store/Redux/Core/coreSlice';
 import TranslateModal from '../../components/TranslateModal';
-import GptModal from '../../components/GPTModal';
+import axios from 'axios';
 
 const PreviewScreen: React.FC = ({navigation, route}: any) => {
-  // const result = route.params.result;
-  const result = 'udiandae. Ut, nemo. Itaque officia, ';
+  const result = route.params.result;
   const [translateModalVisible, setTranslateModalVisible] = useState(false);
-  const [gptModalVisible, setGptModalVisible] = useState(false);
   const [translatedText, setTranslatedText] = useState('');
   const {image} = useAppSelector(state => state);
   const {ip} = useAppSelector(state => state.ip);
@@ -27,29 +25,18 @@ const PreviewScreen: React.FC = ({navigation, route}: any) => {
     console.log('handleSheetChanges', index);
   }, []);
 
-  const translate = async () => {
-    // dispatch(setIsLoading({isLoading: true}));
-    // const res = await fetch('https://libretranslate.com/translate', {
-    //   method: 'POST',
-    //   body: JSON.stringify({
-    //     q: 'سلام \nحالتون چطوره',
-    //     source: 'fa',
-    //     target: 'en',
-    //     format: 'text',
-    //     api_key: '',
-    //   }),
-    //   headers: {'Content-Type': 'application/json'},
-    // });
-
-    // const tmp = await res.json();
-    setTranslatedText('tmp');
-    setTranslateModalVisible(true);
-
-    // dispatch(setIsLoading({isLoading: false}));
-  };
-
-  const askGpt = async () => {
-    setGptModalVisible(true);
+  const translate = () => {
+    dispatch(setIsLoading({isLoading: true}));
+    axios
+      .post(`http://${ip}:8000/api/v1/ocr/translate/`, {
+        text: result,
+      })
+      .then(res => {
+        setTranslatedText(res?.data?.result as string);
+        setTranslateModalVisible(true);
+      })
+      .catch(e => console.log('eee', e.response))
+      .finally(() => dispatch(setIsLoading({isLoading: false})));
   };
 
   return (
@@ -141,25 +128,17 @@ const PreviewScreen: React.FC = ({navigation, route}: any) => {
                     onPress={translate}>
                     <Text style={styles.translateButtonText}>Translate</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.gptButton} onPress={askGpt}>
-                    <Text style={styles.gptButtonText}>Ask GPT</Text>
-                  </TouchableOpacity>
                 </View>
               </View>
             </BottomSheet>
           </View>
-          <TranslateModal
-            visible={translateModalVisible}
-            text={translatedText}
-            onDismiss={() => setTranslateModalVisible(false)}
-          />
         </>
+        <TranslateModal
+          visible={translateModalVisible}
+          text={translatedText}
+          onDismiss={() => setTranslateModalVisible(false)}
+        />
       </MainLayout>
-      <GptModal
-        visible={gptModalVisible}
-        onDismiss={() => setGptModalVisible(false)}
-        question=""
-      />
     </>
   );
 };

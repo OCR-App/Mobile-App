@@ -54,6 +54,15 @@ const HomeScreen: React.FC = ({navigation}: any) => {
           />
         </ImageBackground>
         <View>
+          <TouchableOpacity onPress={() => navigation.navigate('Lang')}>
+            <Text
+              style={{
+                color: '#fff',
+                textAlign: 'center',
+              }}>
+              Back
+            </Text>
+          </TouchableOpacity>
           <Text style={styles.description}>
             to starting the ocr process, please upload your image in box below
           </Text>

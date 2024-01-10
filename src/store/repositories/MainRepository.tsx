@@ -7,7 +7,6 @@ const httpService = HttpService.build();
 
 export const uploadImage = async (image: Image, lang: string, ip: string) => {
   const baseURL = `http://${ip}:8000/api/v1/ocr/get-photo/`;
-  console.log({baseURL});
 
   const imageFormData = [
     {
@@ -17,11 +16,9 @@ export const uploadImage = async (image: Image, lang: string, ip: string) => {
     },
     {
       name: 'lang',
-      data: lang,
+      data: lang === 'custom' ? 'persian' : lang,
     },
   ];
-
-  console.log({imageFormData});
 
   try {
     const response = await RNFetchBlob.fetch(

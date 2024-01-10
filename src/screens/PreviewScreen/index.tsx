@@ -8,7 +8,7 @@ import axios from 'axios';
 import URLs from '../../adapter/axios/URLs';
 
 const PreviewScreen: React.FC = ({navigation}: any) => {
-  const {image} = useAppSelector(state => state);
+  const {image, lang} = useAppSelector(state => state);
   const {ip} = useAppSelector(state => state.ip);
   const dispatch = useAppDispatch();
 
@@ -17,12 +17,13 @@ const PreviewScreen: React.FC = ({navigation}: any) => {
     axios
       .post(`http://${ip}:8000/${URLs.CONFIRM_IMAGE}`, {
         uuid: image?.imageId,
+        model: lang.lang === 'custom' ? 'custom' : 'tesseract',
       })
       .then(res => {
         navigation.navigate('Result', {result: res?.data?.text});
         console.log('res?.data', res?.data?.text);
       })
-      .catch(e => console.log('eee', e))
+      .catch(e => console.log('eee', e.response))
       .finally(() => dispatch(setIsLoading({isLoading: false})));
   };
 
